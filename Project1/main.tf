@@ -66,32 +66,26 @@ EOF
 resource "aws_security_group" "web_server" {
   name        = "WebServer-SG"
   description = "Security Group for my WebServer"
-
-  ingress {
-    description = "All access on SSH Port" 
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  }
   
-  ingress {
-    description = "Allow access on HTTP Port"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    description = "Allow access on All Ports"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   tags = {
-    Name  = "WebServer SG using Terraform"
-    Owner = "Jeffrey"
+  Name  = "WebServer SG using Terraform"
+  Owner = "Jeffrey"
+  }
+  
+ingress {
+  description = "Allow access on HTTP Port"
+  from_port   = 80
+  to_port     = 80
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  }
+
+egress {
+  description = "Allow access on All Ports"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
   }
 }
