@@ -10,6 +10,7 @@ provider "aws" {
 resource "aws_instance" "web_server_1" {
   ami                    = "ami-0b5eea76982371e91" # Amazon Linux 2 
   instance_type          = "t2.micro"
+  availability_zone      = "us-east-1a"
   vpc_security_group_ids = [aws_security_group.web_server.id]
   user_data              = <<EOF
 #!/bin/bash
@@ -29,6 +30,7 @@ EOF
 resource "aws_instance" "web_server_2" {
   ami                    = "ami-0b5eea76982371e91" # Amazon Linux 2 
   instance_type          = "t2.micro"
+  availability_zone      = "us-east-1b"
   vpc_security_group_ids = [aws_security_group.web_server.id]
   user_data              = <<EOF
 #!/bin/bash
@@ -48,6 +50,7 @@ EOF
 resource "aws_instance" "web_server_3" {
   ami                    = "ami-0b5eea76982371e91" # Amazon Linux 2 
   instance_type          = "t2.micro"
+  availability_zone      = "us-east-1c"
   vpc_security_group_ids = [aws_security_group.web_server.id]
   user_data              = <<EOF
 #!/bin/bash
@@ -66,26 +69,25 @@ EOF
 resource "aws_security_group" "web_server" {
   name        = "WebServer-SG"
   description = "Security Group for my WebServer"
-  }
-  
-  tags = {
-  Name  = "WebServer SG using Terraform"
-  Owner = "Jeffrey"
-  }
-  
-ingress {
-  description = "Allow access on HTTP Port"
-  from_port   = 80
-  to_port     = 80
-  protocol    = "tcp"
-  cidr_blocks = ["0.0.0.0/0"]
+
+  ingress {
+    description = "Allow access on HTTP Port"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
-egress {
-  description = "Allow access on All Ports"
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-  cidr_blocks = ["0.0.0.0/0"]
+  egress {
+    description = "Allow access on All Ports"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name  = "WebServer SG using Terraform"
+    Owner = "Jeffrey"
   }
 }
